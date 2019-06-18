@@ -1,0 +1,118 @@
+<html>
+
+    <head>
+        <title>Todo List</title>
+        <script src="https://code.jquery.com/jquery-3.3.1.js"  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="  crossorigin="anonymous"></script>
+        <script src="assets/todo-list.js"></script>
+        <link href="/assets/styles.css" rel="stylesheet" type="text/css" />
+    </head>
+
+    <body>
+            <h1>s</h1>
+        
+        <div id="todo-table">
+            <span id="hello"><span id="name"><%= data[0].username%>'s</span> To-do List</span>
+            <span>Today is <span id="day"></span>, <span id="time"></span></span>
+      
+                <form method="post" id="add-form" action='/todo'>
+                    <input class="tesst" type="text" id="item" name="item" placeholder="Add new item..." required />
+                    <input class="tesst"  type="time" id="time" name="time" required> 
+                    <select class="day" id="day" name="day" placeholder="day" required>
+                        <option value="0">Select Day:</option>
+                        <option value="Sunday">Sunday</option>
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                        <option value="Saturday">Saturday</option>
+                    </select>
+
+                    
+                    <button id="addButton" type="submit"<>Add Item</button>
+                </form>
+           
+
+            <div class='listView'>
+               
+                <ul class="a">
+            
+                    <span class="tooltiptext">Click on an item to remove it from list...</span>
+       
+                    <p>Sunday: </p>
+                    <% for(var i=0; i < data[0].list.length; i++){ %>
+                        <% if(data[0].list[i].day === "Sunday") { %>
+                            <li class="x"> <%= data[0].list[i].item %> 
+                                <span>Time: <%= data[0].list[i].time %> </span> </li>
+                        <% } %>
+                    <% } %>
+                    <p>Monday: </p>
+                    <% for(var i=0; i < data[0].list.length; i++){ %>
+                        <% if(data[0].list[i].day === "Monday") { %>
+                            <li class="x"> <%= data[0].list[i].item %>  </li>
+                        <% } %>
+                    <% } %>
+                    <p>Tuesday: </p>
+                    <% for(var i=0; i < data[0].list.length; i++){ %>
+                        <% if(data[0].list[i].day === "Tuesday") { %>
+                            <li class="x"> <%= data[0].list[i].item %>  </li>
+                        <% } %>
+                    <% } %>
+                    <p>Wednesday: </p>
+                    <% for(var i=0; i < data[0].list.length; i++){ %>
+                        <% if(data[0].list[i].day === "Wednesday") { %>
+                            <li class="x"> <%= data[0].list[i].item %>  </li>
+                        <% } %>
+                    <% } %>
+                    <p>Thursday: </p>
+                    <% for(var i=0; i < data[0].list.length; i++){ %>
+                        <% if(data[0].list[i].day === "Thursday") { %>
+                            <li class="x"> <%= data[0].list[i].item %>  </li>
+                        <% } %>
+                    <% } %>
+                    <p>Friday: </p>
+                    <% for(var i=0; i < data[0].list.length; i++){ %>
+                        <% if(data[0].list[i].day === "Friday") { %>
+                            <li class="x"> <%= data[0].list[i].item %>  </li>
+                        <% } %>
+                    <% } %>
+                    <p>Saturday: </p>
+                    <% for(var i=0; i < data[0].list.length; i++){ %>
+                        <% if(data[0].list[i].day === "Saturday") { %>
+                            <li class="x"> <%= data[0].list[i].item %>  </li>
+                        <% } %>
+                    <% } %>
+                  
+                    
+                </ul>
+                
+                <!--
+                    ONSUBMIT:
+                        INSERT INTO LIST
+                        $("#listView").load(URL_TO_LISTVIEW);
+                -->
+            </div>
+
+            <form method="post" action='/logout'>
+            <button type="submit" id="logout">Logout</button>
+            </form>
+         
+
+        </div>
+    </body>
+
+</html>
+
+<script> 
+        var dt = new Date();
+        var weekday = [];
+        weekday[0] =  "Sunday";
+        weekday[1] = "Monday";
+        weekday[2] = "Tuesday";
+        weekday[3] = "Wednesday";
+        weekday[4] = "Thursday";
+        weekday[5] = "Friday";
+        weekday[6] = "Saturday";
+        document.getElementById("day").innerHTML = weekday[dt.getDay()];
+        document.getElementById("time").innerHTML = dt.toLocaleTimeString();
+</script>

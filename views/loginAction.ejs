@@ -1,0 +1,33 @@
+<html>
+
+    <head>
+        <title>Todo List</title>
+        <script src="https://code.jquery.com/jquery-3.3.1.js"  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="  crossorigin="anonymous"></script>
+        <script src="assets/todo-list.js"></script>
+        <link href="/assets/styles.css" rel="stylesheet" type="text/css" />
+    </head>
+
+    <body>
+        <h1>Todo list</h1>
+       
+        <div id="todo-table">
+            <span id="hello">Hello <%= datas.username %></span>
+            <form method="post">
+                <input type="text" name="item" placeholder="Add new item..." required />
+                <button type="submit"<>Add Item</button>
+            </form>
+            <ul>
+                <% for(var i=0; i < datas.length; i++){ %>
+                    <li> <%= datas[i].item %> </li>
+                <% } %>
+            </ul>
+
+            <!--
+                SCRIPT:
+                CREATE COOKIE W/ USERNAME, PASSWORD
+                REDIRECT TO MAIN PAGE
+            -->
+        </div>
+    </body>
+
+</html>
