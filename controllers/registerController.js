@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var urlencondedParser = bodyParser.urlencoded({extended: false});
 
+//Redirects to login if session ID is not found
 const redirectLogin = (req, res, next) =>{
     if (!req.session.userID){
         res.redirect('/login');
@@ -10,6 +11,7 @@ const redirectLogin = (req, res, next) =>{
     }
 };
 
+//Redirects to home if session ID is found
 const redirectHome = (req, res, next) =>{
     if (req.session.userID){
         res.redirect('/home');
@@ -23,7 +25,7 @@ const redirectHome = (req, res, next) =>{
 //Connect to the database
 mongoose.connect('mongodb+srv://test:test@cluster0-qejii.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser: true });
 
-//Create schema
+//Create schemas
 var todoSchema = new mongoose.Schema({
     item: String,
     day: String,
@@ -41,10 +43,6 @@ var userSchema = new mongoose.Schema({
 
 var Todo = mongoose.model('todo', todoSchema);
 var User = mongoose.model('myuser', userSchema);
-
-
-
-
 
 module.exports = function(app){
     const TWO_HOURS = 1000 * 60 * 60 * 2;
@@ -77,11 +75,12 @@ module.exports = function(app){
     });
 
     app.use(async(req, res, next) => {
-        
         const userID = req.session.userID;
-        var test;
-        if(userID){            
-            var userData = [];
+        
+        ;
+        //Populate userData with matching _id from Mongodb and attaches to res.locals.user to be used as session id
+        if(userID){   
+            var userData = []         
             await User.find({_id: userID}, (err, data) =>{
                 data.forEach((value)=>{
                     userData.push(value);
@@ -137,8 +136,8 @@ module.exports = function(app){
         var username = req.body.username;
         var password = req.body.password;
         
-        //console.log(username);
         
+        //Finds user with matching password in MongoDB 
         User.findOne({username: username, password: password}, (err, user) => {
             
             if(user){

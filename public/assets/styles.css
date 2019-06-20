@@ -18,6 +18,38 @@ body{
     box-sizing: border-box;
 }
 
+.today{
+    margin-left: 100px;
+}
+
+#day{
+    
+}
+
+input:valid{
+    background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/check.svg);
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: 280px 20px;
+    
+}
+
+select:valid{
+    background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/check.svg);
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: 280px 20px;
+}
+
+input[type="regForm"]:valid{
+    background-color:#181c22;
+    background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/check.svg);
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: 240px 10px;
+}
+
+
 #todo-table2{
     padding: 10px;
     width: 35em;
@@ -51,17 +83,26 @@ body{
     display: inline-block;
     width: 20%;
     padding: 20px;
-    margin: 5px;
+    margin: 1px;
     background:#181c22;
     border: 0;
-    height: 50px;
+    height: 65px;
     font-size: 20px;
     color: #989898;
 }
 
+#add-form{
+    margin-left: 100px;
+   
+}
+
+select{
+    margin-top: 10px;
+}
 
 
-input[type="regForm"]{
+
+input[type="regform"]{
     width: 50%;
     padding: 10px;
     background:#181c22;
@@ -70,6 +111,40 @@ input[type="regForm"]{
     font-size: 20px;
     color: #989898;
 }
+
+#username:invalid:not(:focus):not(:placeholder-shown) {
+    background: pink;
+  
+    visibility: visible;
+} 
+
+#password:invalid:not(:focus):not(:placeholder-shown){
+    background: pink;
+
+}
+
+
+
+.pwMsg {
+    display:none;
+    background: #f1f1f1;
+    color: #000;
+    width: 50%;
+    position: relative;
+
+    margin: 5px;
+}
+
+.userMsg {
+    display:none;
+    background: #f1f1f1;
+    color: #000;
+    width: 50%;
+    position: relative;
+
+    margin: 5px;
+}
+
 
 button{
     padding: 20px;
@@ -82,8 +157,20 @@ button{
     cursor: pointer;
     font-size: 20px;
 }
+
 #addButton{
-    display: inline-block;
+    position: relative;
+    margin-right: 140px;
+    padding: 20px;
+    width: 30%;
+    height: 65px;
+    float: right;
+    background: #23282e;
+    border: 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
 }
 
 #regButton{
@@ -136,7 +223,7 @@ button{
     background: white;
 }
 
-ul li {
+.a .x {
     background: white;
     margin: 5px;
    
@@ -239,10 +326,6 @@ h1{
     margin-left: 40px;
 }
 
-#day{
-    display: inline;
-    
-}
 
 .day{
     display: inline;
@@ -263,3 +346,32 @@ h1{
     appearance: none;
     background-color: #fff;
 }
+
+#upcoming-events{
+    display: block;
+    font-size: 30px;
+}
+
+.collapsible {
+    background-color: #777;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 35px;
+  }
+  
+  .active, .collapsible:hover {
+    background-color: #555;
+  }
+  
+  .c-content {
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #f1f1f1;
+  }

@@ -12,13 +12,47 @@
         
         <div id="todo-table">
             <span id="hello"><span id="name"><%= data[0].username%>'s</span> To-do List</span>
-            <span>Today is <span id="day"></span>, <span id="time"></span></span>
+            <div id="upcoming-events">
+                    <% 
+                        var upcomingEvents = [];
+                        var today = new Date();
+                        var curHr = today.getHours();
+                        if(curHr >= 12){
+                            curHr = curHr-12;
+                        }
+                        if(curHr === 0){
+                            curHr = 12;
+                        }
+                        var newTime;
+                        var yy = parseInt(newTime);
+
+
+                        for(var i=0; i < data[0].list.length; i++){
+                            newTime = data[0].list[i].time.substring(0,2);
+                            var y = parseInt(newTime);
+                            if(curHr+1 === y || curHr+2 === y){
+                                upcomingEvents.push(data[0].list[i]);
+                            }
+                        }
+                    %>
+                    <span>Upcoming Events: </span>
+                    <ul>
+                        <% for(var i = 0; i < upcomingEvents.length; i++){ %>
+                            <li> 
+                                <%= upcomingEvents[i].item %> at <%= upcomingEvents[i].time%>
+
+                            </li>
+                        <% } %>
+                    </ul>
+                    
+                </div>
+            <span class="today">Today is <span id="day"></span>, <span id="time"></span></span>
       
                 <form method="post" id="add-form" action='/todo'>
                     <input class="tesst" type="text" id="item" name="item" placeholder="Add new item..." required />
                     <input class="tesst"  type="time" id="time" name="time" required> 
-                    <select class="day" id="day" name="day" placeholder="day" required>
-                        <option value="0">Select Day:</option>
+                    <select class="tesst"  name="day" placeholder="day" required>
+                        <option selected disabled>Select Day:</option>
                         <option value="Sunday">Sunday</option>
                         <option value="Monday">Monday</option>
                         <option value="Tuesday">Tuesday</option>
@@ -38,52 +72,64 @@
                 <ul class="a">
             
                     <span class="tooltiptext">Click on an item to remove it from list...</span>
-       
-                    <p>Sunday: </p>
+                
+                    <button class="collapsible">Sunday: </button>
+                    <div class="c-content">
                     <% for(var i=0; i < data[0].list.length; i++){ %>
                         <% if(data[0].list[i].day === "Sunday") { %>
                             <li class="x"> <%= data[0].list[i].item %> 
                                 <span>Time: <%= data[0].list[i].time %> </span> </li>
                         <% } %>
                     <% } %>
-                    <p>Monday: </p>
+                    </div>
+                    <button class="collapsible">Monday: </button>
+                    <div class="c-content">
                     <% for(var i=0; i < data[0].list.length; i++){ %>
                         <% if(data[0].list[i].day === "Monday") { %>
                             <li class="x"> <%= data[0].list[i].item %>  </li>
                         <% } %>
                     <% } %>
-                    <p>Tuesday: </p>
+                    </div>
+                    <button class="collapsible"> Tuesday: </button>
+                    <div class="c-content">
                     <% for(var i=0; i < data[0].list.length; i++){ %>
                         <% if(data[0].list[i].day === "Tuesday") { %>
                             <li class="x"> <%= data[0].list[i].item %>  </li>
                         <% } %>
                     <% } %>
-                    <p>Wednesday: </p>
+                    </div>
+                    <button class="collapsible">Wednesday: </button>
+                    <div class="c-content">
                     <% for(var i=0; i < data[0].list.length; i++){ %>
                         <% if(data[0].list[i].day === "Wednesday") { %>
                             <li class="x"> <%= data[0].list[i].item %>  </li>
                         <% } %>
                     <% } %>
-                    <p>Thursday: </p>
+                    </div>
+                    <button class="collapsible">Thursday: </button>
+                    <div class="c-content">
                     <% for(var i=0; i < data[0].list.length; i++){ %>
                         <% if(data[0].list[i].day === "Thursday") { %>
                             <li class="x"> <%= data[0].list[i].item %>  </li>
                         <% } %>
                     <% } %>
-                    <p>Friday: </p>
+                    </div>
+                    <button class="collapsible">Friday: </button>
+                    <div class="c-content">
                     <% for(var i=0; i < data[0].list.length; i++){ %>
                         <% if(data[0].list[i].day === "Friday") { %>
                             <li class="x"> <%= data[0].list[i].item %>  </li>
                         <% } %>
                     <% } %>
-                    <p>Saturday: </p>
+                    </div>
+                    <button class="collapsible">Saturday: </button>
+                    <div class="c-content">
                     <% for(var i=0; i < data[0].list.length; i++){ %>
                         <% if(data[0].list[i].day === "Saturday") { %>
                             <li class="x"> <%= data[0].list[i].item %>  </li>
                         <% } %>
                     <% } %>
-                  
-                    
+                    </div>    
                 </ul>
                 
                 <!--
@@ -104,15 +150,34 @@
 </html>
 
 <script> 
-        var dt = new Date();
-        var weekday = [];
-        weekday[0] =  "Sunday";
-        weekday[1] = "Monday";
-        weekday[2] = "Tuesday";
-        weekday[3] = "Wednesday";
-        weekday[4] = "Thursday";
-        weekday[5] = "Friday";
-        weekday[6] = "Saturday";
-        document.getElementById("day").innerHTML = weekday[dt.getDay()];
-        document.getElementById("time").innerHTML = dt.toLocaleTimeString();
+
+
+    var dt = new Date();
+    var weekday = [];
+    weekday[0] =  "Sunday";
+    weekday[1] = "Monday";
+    weekday[2] = "Tuesday";
+    weekday[3] = "Wednesday";
+    weekday[4] = "Thursday";
+    weekday[5] = "Friday";
+    weekday[6] = "Saturday";
+    document.getElementById("day").innerHTML = weekday[dt.getDay()];
+    document.getElementById("time").innerHTML = dt.toLocaleTimeString();
+</script>
+
+<script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+        
+        for (i = 0; i < coll.length; i++) {
+          coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight){
+              content.style.maxHeight = null;
+            } else {
+              content.style.maxHeight = content.scrollHeight + "px";
+            } 
+          });
+        }
 </script>

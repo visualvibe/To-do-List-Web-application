@@ -13,8 +13,14 @@
             
             <form method="post" id="regForm">
                 <h2>Register</h2>
-                <input type="regForm" id="username" name="username" placeholder="Enter username..." required />
-                <input type="regForm" id="password" name="password" placeholder="Enter password..." required />
+                <input type="regForm" id="username" name="username" placeholder="Enter username..." pattern=".{6,}" required />
+                <div class="userMsg" id="userMsg">
+                        Username must be at least 6 characters 
+                </div>
+                <input type="regForm" id="password" name="password" pattern=".{6,}" placeholder="Enter password..." title="Password should be 6 or more letters" required />
+                <div class="pwMsg" id="pwMsg">
+                        Password must be at least 6 characters 
+                </div>
                 <input type="regForm" id="firstname" name="firstname" placeholder="Enter first name..." required />
                 <input type="regForm" id="lastname" name="lastname" placeholder="Enter last name..." required />
                 <button type="submit" id="regButton">Register</button>
@@ -24,3 +30,23 @@
     </body>
 
 </html>
+
+<script>
+var myInput1 = document.getElementById("password");
+var myInput2 = document.getElementById("username");
+myInput1.onfocus = function() {
+  document.getElementById("pwMsg").style.display = "block";
+}
+
+myInput1.onblur = function() {
+  document.getElementById("pwMsg").style.display = "none";
+}
+
+myInput2.onfocus = function() {
+  document.getElementById("userMsg").style.display = "block";
+}
+
+myInput2.onblur = function() {
+  document.getElementById("userMsg").style.display = "none";
+}
+</script>
