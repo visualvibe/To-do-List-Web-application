@@ -6,8 +6,6 @@ var app = express();
 
 
 
-
-
 //Sets up template engine
 app.set('view engine', 'ejs');
 
@@ -19,6 +17,8 @@ app.use(cookieParser());
 //Start controllers
 todoController(app);
 registerController(app);
+
+
 
 //Listen to port
 app.listen(3000);

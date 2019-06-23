@@ -23,6 +23,7 @@ $(document).ready(function(){
   $('li').on('click', function(e){
       e.preventDefault();
       var item = $(this).text().trim().replace(/ /g, "-");
+      
       console.log(item);
       $.ajax({
         type: 'DELETE',

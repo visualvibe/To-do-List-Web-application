@@ -2,13 +2,23 @@
 
     <head>
         <title>Todo List</title>
-        <script src="https://code.jquery.com/jquery-3.3.1.js"  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="  crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.3.0.min.js"
+            integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4="
+            crossorigin="anonymous">
+        </script>
         <script src="assets/todo-list.js"></script>
+        <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
+        <script src="/assets/clientt.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <link href="/assets/styles.css" rel="stylesheet" type="text/css" />
+        
+        
     </head>
 
     <body>
-            <h1>s</h1>
+
+            <!--<script src="/assets/x.js"></script>-->
+        <h1>s</h1>
         
         <div id="todo-table">
             <span id="hello"><span id="name"><%= data[0].username%>'s</span> To-do List</span>
@@ -17,6 +27,16 @@
                         var upcomingEvents = [];
                         var today = new Date();
                         var curHr = today.getHours();
+                        var curDa = today.getDay();
+                        var weekday = [];
+                        weekday[0] =  "Sunday";
+                        weekday[1] = "Monday";
+                        weekday[2] = "Tuesday";
+                        weekday[3] = "Wednesday";
+                        weekday[4] = "Thursday";
+                        weekday[5] = "Friday";
+                        weekday[6] = "Saturday";
+                        var curDay = weekday[curDa];
                         if(curHr >= 12){
                             curHr = curHr-12;
                         }
@@ -25,13 +45,14 @@
                         }
                         var newTime;
                         var yy = parseInt(newTime);
-
-
+                        
                         for(var i=0; i < data[0].list.length; i++){
                             newTime = data[0].list[i].time.substring(0,2);
                             var y = parseInt(newTime);
-                            if(curHr+1 === y || curHr+2 === y){
-                                upcomingEvents.push(data[0].list[i]);
+                            if(curDay === data[0].list[i].day){
+                                if(curHr+1 === y || curHr+2 === y){
+                                    upcomingEvents.push(data[0].list[i]);
+                                }
                             }
                         }
                     %>
@@ -52,7 +73,7 @@
                     <input class="tesst" type="text" id="item" name="item" placeholder="Add new item..." required />
                     <input class="tesst"  type="time" id="time" name="time" required> 
                     <select class="tesst"  name="day" placeholder="day" required>
-                        <option selected disabled>Select Day:</option>
+                        <option value="" selected disabled>Select Day:</option>
                         <option value="Sunday">Sunday</option>
                         <option value="Monday">Monday</option>
                         <option value="Tuesday">Tuesday</option>
@@ -73,7 +94,7 @@
             
                     <span class="tooltiptext">Click on an item to remove it from list...</span>
                 
-                    <button class="collapsible">Sunday: </button>
+                    <button class="collapsible">Sunday </button>
                     <div class="c-content">
                     <% for(var i=0; i < data[0].list.length; i++){ %>
                         <% if(data[0].list[i].day === "Sunday") { %>
@@ -82,51 +103,58 @@
                         <% } %>
                     <% } %>
                     </div>
-                    <button class="collapsible">Monday: </button>
+                    <button class="collapsible">Monday </button>
                     <div class="c-content">
                     <% for(var i=0; i < data[0].list.length; i++){ %>
                         <% if(data[0].list[i].day === "Monday") { %>
-                            <li class="x"> <%= data[0].list[i].item %>  </li>
+                            <li class="x"> <%= data[0].list[i].item %>
+                                <span>Time: <%= data[0].list[i].time %> </span> </li>
                         <% } %>
                     <% } %>
                     </div>
-                    <button class="collapsible"> Tuesday: </button>
+                    <button class="collapsible"> Tuesday </button>
                     <div class="c-content">
                     <% for(var i=0; i < data[0].list.length; i++){ %>
                         <% if(data[0].list[i].day === "Tuesday") { %>
-                            <li class="x"> <%= data[0].list[i].item %>  </li>
+                            <li class="x"> <%= data[0].list[i].item %>
+                                <span>Time: <%= data[0].list[i].time %> </span> </li>
                         <% } %>
                     <% } %>
                     </div>
-                    <button class="collapsible">Wednesday: </button>
+                    <button class="collapsible">Wednesday </button>
                     <div class="c-content">
                     <% for(var i=0; i < data[0].list.length; i++){ %>
                         <% if(data[0].list[i].day === "Wednesday") { %>
-                            <li class="x"> <%= data[0].list[i].item %>  </li>
+                            <li class="x"> <%= data[0].list[i].item %>
+                                <span>Time: <%= data[0].list[i].time %> </span> </li>
                         <% } %>
                     <% } %>
                     </div>
-                    <button class="collapsible">Thursday: </button>
+                    <button class="collapsible">Thursday </button>
                     <div class="c-content">
                     <% for(var i=0; i < data[0].list.length; i++){ %>
                         <% if(data[0].list[i].day === "Thursday") { %>
-                            <li class="x"> <%= data[0].list[i].item %>  </li>
+                            <li class="x"> <%= data[0].list[i].item %>
+                                <span>Time: <%= data[0].list[i].time %> </span> </li>
                         <% } %>
                     <% } %>
                     </div>
-                    <button class="collapsible">Friday: </button>
+                    <button class="collapsible">Friday </button>
                     <div class="c-content">
                     <% for(var i=0; i < data[0].list.length; i++){ %>
                         <% if(data[0].list[i].day === "Friday") { %>
-                            <li class="x"> <%= data[0].list[i].item %>  </li>
+                            <li class="x"> <%= data[0].list[i].item %>
+                                <span>Time: <%= data[0].list[i].time %> </span> </li>
+
                         <% } %>
                     <% } %>
                     </div>
-                    <button class="collapsible">Saturday: </button>
+                    <button class="collapsible">Saturday </button>
                     <div class="c-content">
                     <% for(var i=0; i < data[0].list.length; i++){ %>
                         <% if(data[0].list[i].day === "Saturday") { %>
-                            <li class="x"> <%= data[0].list[i].item %>  </li>
+                            <li class="x"> <%= data[0].list[i].item %>
+                                <span>Time: <%= data[0].list[i].time %> </span> </li>
                         <% } %>
                     <% } %>
                     </div>    
@@ -145,13 +173,14 @@
          
 
         </div>
+
+        
+
     </body>
 
 </html>
 
 <script> 
-
-
     var dt = new Date();
     var weekday = [];
     weekday[0] =  "Sunday";
@@ -181,3 +210,61 @@
           });
         }
 </script>
+
+<script>
+        const pusher = new Pusher('687a0fbbb2ad09dd9ec4', { 
+            cluster: 'us3',
+            forceTLS: true
+        });
+
+        Pusher.logToConsole = true;
+
+        /*
+        // retrieve the socket ID once we're connected
+        pusher.connection.bind('connected', function () {
+            // attach the socket ID to all outgoing Axios requests
+            axios.defaults.headers.common['X-Socket-Id'] = pusher.connection.socket_id;
+        });
+        */
+
+        // request permission to display notifications, if we don't alreay have it
+        Notification.requestPermission();
+
+
+        var x = "<%= data[0]._id%>";
+        var name = "<%= data[0].username %>";
+   
+        const channel = pusher.subscribe(`os-${x}`);
+        channel.bind('ox', function(data) {
+         
+            "<% var isUndefined = 1; if(event[0] !== undefined){ var xx = event[0].time; var xy = event[0].item; isUndefined = 0} %>"
+
+            var isUndefined = "<%= isUndefined %>";
+
+            console.log(isUndefined);
+            
+            if(isUndefined !== 1){
+                var time = "<%= xx%>";
+                var item = "<%= xy%>";
+                var n = new Notification("Upcoming Event!", {
+                    body: `Hello ${name}, you have to ${item} at ${time}`,
+                    icon: "/assets/icon.png"
+                });
+
+
+                Notification.onclick = function (event){
+                event.preventDefault();
+                n.close();
+                }
+            }
+
+    });
+
+
+    channel.bind('pusher:subscription_succeeded', function(data) {
+        
+
+    });
+
+    </script>
+       

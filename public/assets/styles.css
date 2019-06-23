@@ -51,14 +51,17 @@ input[type="regForm"]:valid{
 
 
 #todo-table2{
-    padding: 10px;
-    width: 35em;
+    padding: 90px;
+    border-radius: 25px;
+    width: 25%;
     background: #090d13;
-    margin: 0 auto;
+    margin: 200px auto;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
+
+
 
 }
 
@@ -67,7 +70,7 @@ input[type="regForm"]:valid{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 50em;
+    width: 55em;
     
 }
 
@@ -103,7 +106,7 @@ select{
 
 
 input[type="regform"]{
-    width: 50%;
+    width: 200px;
     padding: 10px;
     background:#181c22;
     border: solid;
@@ -188,7 +191,7 @@ button{
 
 #loginSubmit{
     padding: 30px;
-    width: 50%;
+    width: 200px;
     margin: 20px;
     background: #23282e;
     border: 0;
@@ -196,7 +199,7 @@ button{
     color: #fff;
     cursor: pointer;
     font-size: 20px;
- 
+
 }
 
 .a{
@@ -205,27 +208,29 @@ button{
     background:#181c22;
     position: relative;
     border-radius: 15px;
-  
+    width:
 }
 
 .x{
-    width: 95%;
+    width: 55%;
     margin-left: auto;
     margin-right: auto;
     padding: 10px;
     box-sizing: border-box;
-    font-family: arial;
+    font-family: tahoma;
     font-size: 20px;
     color: black;
     cursor: pointer;
     letter-spacing: 1px;
     list-style-position: inside;
     background: white;
+    border-radius: 5px;
 }
 
 .a .x {
-    background: white;
-    margin: 5px;
+    background: white; 
+    width: 65%;
+    margin: 10px;
    
 }
 
@@ -354,6 +359,8 @@ h1{
 
 .collapsible {
     background-color: #777;
+    margin: 5px;
+    border-radius: 5px;
     color: white;
     cursor: pointer;
     padding: 18px;
@@ -370,8 +377,21 @@ h1{
   
   .c-content {
     padding: 0 18px;
+    border-radius: 5px;
+    margin-left: 10px;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
     background-color: #f1f1f1;
+  }
+
+  .collapsible:after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    font-size: 25px;
+    color: white;
+    float: right;
+  }
+  
+  .active:after {
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
   }
