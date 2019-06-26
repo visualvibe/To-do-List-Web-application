@@ -3,18 +3,6 @@ var bodyParser = require('body-parser');
 const webpush = require('web-push');
 var urlencondedParser = bodyParser.urlencoded({extended: false});
 require('dotenv').config();
-var Pusher = require('pusher');
-
-var pusher = new Pusher({
-    appId: '809187',
-    key: '476638bb1e08a818596f',
-    secret: '960d5d2552f235f80f27',
-    cluster: 'us3',
-    encrypted: true
-  });
-
-
-
 
 //Redirects to login if session ID is not found
 const redirectLogin = (req, res, next) =>{
@@ -41,27 +29,61 @@ mongoose.connect('mongodb+srv://test:test@cluster0-qejii.mongodb.net/test?retryW
 mongoose.set('useCreateIndex', true);
 
 //Create schemas
-var todoSchema = new mongoose.Schema({
+const todoSchema = new mongoose.Schema({
     item: String,
     day: String,
     time: String
     
 });
 
-var userSchema = new mongoose.Schema({
+const subscriberSchema = new mongoose.Schema({
+    endpoint: String,
+    expirationTime: Date,
+    keys: mongoose.Schema.Types.Mixed,
+    createDate: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+const userSchema = new mongoose.Schema({
     username: {type: String, unique: true},
     password: {type: String},
     firstname: String,
     lastname: String,
-    list: [todoSchema]
+    list: [todoSchema],
+    subs: [subscriberSchema],
+    hasEvents: {type: Boolean, default: false}
 });
 
-var Todo = mongoose.model('todo', todoSchema);
-var User = mongoose.model('myuser', userSchema);
-const publicVapidKey = 'BNZdm5dNfM83gRZsBNDxCloXHjEcsXWydw47hLHkdXvEVGAzin7YatXzboNHYTzQSRscv9FmXFa3zfTRW4yMSm4';
-const privateVapidKey = 'QFYvf8iP7lXIx67tcu62ZKPj22zH1vFONYUmqZ9UDwg';
 
-webpush.setVapidDetails('mailto:test@test.com', publicVapidKey, privateVapidKey);
+
+const Todo = mongoose.model('todo', todoSchema);
+const User = mongoose.model('myuser', userSchema);
+const Subs = mongoose.model('subscribers', subscriberSchema);
+const publicVapidKey = 'BJgvS400qhBCKFjWuwzE-GkU1stRIypVHCwdriwm998Wv8GwvFjQlQgXt2CtFsAab-otubMKwNW-SS46BMcWNcE';
+const privateVapidKey = 'oU6CuK0WyJcYofzgvce2YlQVjETx_JGscCXMaM1b7gc';
+webpush.setVapidDetails('mailto:bjornedale@gmail.com', publicVapidKey, privateVapidKey);
+
+var today = new Date();
+var curHr = today.getHours();
+var curMin = today.getMinutes();
+var curDa = today.getDay();
+const weekday = [];
+           weekday[0] =  "Sunday";
+           weekday[1] = "Monday";
+           weekday[2] = "Tuesday";
+           weekday[3] = "Wednesday";
+           weekday[4] = "Thursday";
+           weekday[5] = "Friday";
+           weekday[6] = "Saturday";
+var curDay = weekday[curDa];
+if(curHr >= 12){
+    curHr = curHr-12;
+}
+if(curHr === 0){
+    curHr = 12;
+}
 
 
 module.exports = function(app){
@@ -89,30 +111,7 @@ module.exports = function(app){
         }
     }));
 
-    /*
-    app.post('/home', urlencondedParser, (req, res) =>{
-       
-        const subscription = req.body;
-        // Send 201 - resource created
-        res.status(201).json({});
-
-        //Create payload
-        const payload = JSON.stringify({ title: 'Push Test'});
-
-        //Pass Object into SendNotification
-        webpush.sendNotification(subscription, payload).catch(error => {
-            console.error(error.stack);
-        });
     
-    });
-    */
-
-    app.get('/', redirectHome, (req,res) =>{
-        const userID  = req.session.userID;
-        console.log(userID);
-        res.render('s', {data: userID });
-    });
-
     app.use(async(req, res, next) => {
         const userID = req.session.userID;
         
@@ -129,49 +128,162 @@ module.exports = function(app){
         next();
     });
 
-    app.get('/home', redirectLogin, (req, res) =>{
+    
+    const sendNotification = (subscription, dataToSend) => {
+        webpush.sendNotification(subscription, dataToSend).catch(error => {
+            console.error(error.stack);
+        });
+    };
+
+    app.post('/save', urlencondedParser, async (req, res) => {
+        const subscription = req.body;
         const { user } = res.locals;
+        await saveToDatabase(subscription, user); //Method to save the subscription to Database
+        res.json({ message: 'success' });
+    });
 
-        var today = new Date();
-        var curHr = today.getHours();
-        var curDa = today.getDay();
-        var newTime;
-        var upcomingEvents = [];
-        var weekday = [];
-            weekday[0] =  "Sunday";
-            weekday[1] = "Monday";
-            weekday[2] = "Tuesday";
-            weekday[3] = "Wednesday";
-            weekday[4] = "Thursday";
-            weekday[5] = "Friday";
-            weekday[6] = "Saturday";
-        var curDay = weekday[curDa];
+    //Function to make notification send to local 
+    const makeNotification = async (user) =>{
 
-        if(curHr >= 12){
-            curHr = curHr-12;
-        }
-        if(curHr === 0){
-            curHr = 12;
-        }
+        const x = { 
+            endpoint: user.subs.endpoint,
+            expirationTime: null,
+            keys: {
+                p256dh: user.subs.keys.p256dh,
+                auth: user.subs.keys.auth
+            }
+        };
 
-        for(var i=0; i < user[0].list.length; i++){
-            newTime = user[0].list[i].time.substring(0,2);
+        const message = {
+            title: "hello",
+            message: "Hello " + user.name + ", you have to " + user.list.item + " at " + user.list.time,
+            icon: "/assets/icon.png",
+            vibrate: [100, 100, 100]
+        };
+        const pushPayload = JSON.stringify(message);
+        sendNotification(x, pushPayload);
+    }
+
+    //Automatic function that runs every 5 seconds
+    //Sends notifications to users with Subscriptions 
+    setInterval(async function(){     
+       var e = [];
+       e = await User.find({}, (err, data) =>{
+           //console.log(data);
+           return data;
+       });
+
+       var newTime, newMinute;
+       var upcomingEvents = [];
+
+       //Adds to upcomingEvents array if any upcoming events in database for User
+       for(var x = 0; x < e.length; x++){
+        for(var i=0; i < e[x].list.length; i++){
+            newTime = e[x].list[i].time.substring(0,2);
             var y = parseInt(newTime);
-            if(curDay === user[0].list[i].day){
+            if(curDay === e[x].list[i].day){
+                if(curHr === y && curMin < yy){
+                    upcomingEvents.push({name: e[x].username, list: {item: e[x].list[i].item, day: e[x].list[i].day, time: e[x].list[i].time}, 
+                        subs: {endpoint: e[x].subs[0].endpoint, keys: {p256dh: e[x].subs[0].keys.p256dh, auth: e[x].subs[0].keys.auth}}});
+                    break;
+                }
                 if(curHr+1 === y || curHr+2 === y){
-                    upcomingEvents.push(user[0].list[i]);
-
+                    upcomingEvents.push({name: e[x].username, list: {item: e[x].list[i].item, day: e[x].list[i].day, time: e[x].list[i].time}, 
+                        subs: {endpoint: e[x].subs[0].endpoint, keys: {p256dh: e[x].subs[0].keys.p256dh, auth: e[x].subs[0].keys.auth}}});
+                    //console.log(e[x].subs[0])
+                    }
                 }
             }
         }
 
+        for(var i = 0; i < upcomingEvents.length; i++){
+            makeNotification(upcomingEvents[i]);
+        }
+
+    }, 30000); //30 seconds
+    
+
+   
+
+    const saveToDatabase = async (subscription, user) => {
+        //Saves subscription to matching user id into database
+        //Using $set so only one sub can exist at one time for any given user
+        await User.findOneAndUpdate({_id: user[0]._id}, {$set: {subs: {endpoint: subscription.endpoint, expirationTime: null, keys: {p256dh: subscription.keys.p256dh, auth: subscription.keys.auth}}}}, (err, data) =>{
+            if(err) throw err;
+      
+        });
+    };
+
+    
+    app.get('/', redirectHome, (req,res) =>{
+        const userID  = req.session.userID;
+        console.log(userID);
+        res.render('s', {data: userID });
+    });
+    
+    app.get('/home', redirectLogin, async (req, res) =>{
+        const { user } = res.locals;
+
+        //Always sets hasEvents field for user to false
+        await User.findOneAndUpdate({_id: user[0]._id}, {$set: {hasEvents: false}}, (err, data) => {
+            if(err) throw err;
+        });
+
+        //Retrieves the user's subscription info from database
+        const subscription = await User.findOne({_id: user[0]._id}, (err, data) =>{
+            return data;
+        });
+
+        var newTime, newMinute;
+        var upcomingEvents = [];
+ 
+        //Adds to upcomingEvents array if any upcoming events in database for User
+        for(var i=0; i < user[0].list.length; i++){
+            newTime = user[0].list[i].time.substring(0,2);
+            newMinute = user[0].list[i].time.split(":").pop().substring(0,2);
+            var y = parseInt(newTime);
+            var yy = parseInt(newMinute);
+            if(curDay === user[0].list[i].day){ //Checks if list day is matching current day
+                if(curHr === y && curMin < yy){
+                    upcomingEvents.push(user[0].list[i]);
+                    break;
+                }
+                if((curHr+1 === y || curHr+2 === y) ){ // Checks if current hour is within two hours of list time & if the current minute is less than list minute
+                    upcomingEvents.push(user[0].list[i]);
+                }
+            }
+        }
+
+        //If any upcoming events, trigger pusher notification
         if(upcomingEvents === undefined || upcomingEvents.length === 0){
             console.log("empty");
-            //res.render('home', {data: user});
+     
         } else { 
-            console.log(upcomingEvents[0]);
-            pusher.trigger(`os-${user[0]._id}`, 'ox', {title: "test", message: "hello world"});
-            //res.render('home2', {data: user, event: upcomingEvents});
+            await User.findOneAndUpdate({_id: user[0]._id}, {$set: {hasEvents: true}}, (err, data) => {
+                if(err) throw err;
+            });
+
+            //Places the subscription data into proper format in x variable
+            const x = { 
+                endpoint: subscription.subs[0].endpoint,
+                expirationTime: null,
+                keys: {
+                    p256dh: subscription.subs[0].keys.p256dh,
+                    auth: subscription.subs[0].keys.auth
+                }
+            };
+            
+          
+            //Payload of the push message
+            for(var i = 0; i < upcomingEvents.length; i++){
+            const message = {
+                title: "hello",
+                message: "Hello " + user[0].username + ", you have to " + upcomingEvents[i].item + " at " + upcomingEvents[i].time,
+                icon: "/assets/icon.png"
+            };
+            const pushPayload = JSON.stringify(message);
+            sendNotification(x, pushPayload);
+            }
         }
         
        res.render('home', {data: user, event: upcomingEvents});
@@ -207,19 +319,14 @@ module.exports = function(app){
         newUser.save(function(err, savedUser){
             if(err) throw err;
             res.redirect('/login');
- 
             return res.status(200).send();
-            res.json(savedUser);
-            res.redirect();
         });
     });
     
     //POST method when user clicks login button
     app.post('/login', redirectHome, urlencondedParser, (req,res) =>{
-        
         var username = req.body.username;
         var password = req.body.password;
-        
         
         //Finds user with matching password in MongoDB 
         User.findOne({username: username, password: password}, (err, user) => {
@@ -320,9 +427,6 @@ module.exports = function(app){
         User.findOneAndUpdate({_id: userID}, {$pull: {list: {item: finalItem, time: newTime}} }, (err, data) =>{
             if(err) throw err;
         });
-      
-
-        pusher.trigger('my-channel', 'my-event', {"message": "hello"}, req.headers['X-Socket-Id']);
 
         res.send('');
         //res.end();
