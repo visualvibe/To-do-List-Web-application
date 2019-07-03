@@ -2,25 +2,36 @@
 
     <head>
         <title>Todo List</title>
+        <link rel="icon" type="image/png" href="/assets/1.png" />
         <script src="https://code.jquery.com/jquery-3.3.0.min.js"
             integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4="
             crossorigin="anonymous">
         </script>
         <script src="assets/todo-list.js"></script>
-        <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
         <script src="/assets/client.js" type="text/javascript"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <link href="/assets/styles.css" rel="stylesheet" type="text/css" />
-        
+        <link href="/assets/accordian.css" rel="stylesheet" type="text/css" />
+
         
     </head>
 
     <body>
-
-        <h1>s</h1>
-        
-        <div id="todo-table">
-            <span id="hello"><span id="name"><%= data[0].username%>'s</span> To-do List</span>
+    
+        <div class="content-body">
+            
+            <div class="header">
+                <div class="logo"></div>
+                <div class="logouut">
+                        <form method="post" action='/logout'>
+                            <button type="submit" id="logout">Logout</button>
+                        </form>
+                </div>
+                <span id="hellox"><span id="name"><%= data[0].username%>'s</span> Todo List</span>
+            </div>
+           
+            <div class="mid-header">
+                
             <div id="upcoming-events">
                     <% 
                         var upcomingEvents = [];
@@ -62,21 +73,24 @@
                                 }
                             }
                         }
-
                     %>
-                    <span>Upcoming Events: </span>
-                    <ul>
+                    <span><span id="upcoming-text">Upcoming Events:  </span>
+                        <% if(upcomingEvents.length === 0) { %> <span id="mid-text">none!</span> <% } %>
                         <% for(var i = 0; i < upcomingEvents.length; i++){ %>
-                            <li> 
-                                <%= upcomingEvents[i].item %> at <%= upcomingEvents[i].time%>
-
-                            </li>
+                            <span id="mid-text">&#8226;<%= upcomingEvents[i].item %> at <%= upcomingEvents[i].time%> </span>
                         <% } %>
-                    </ul>
-                    
+                    </span>
                 </div>
+            </div>
             <span class="today">Today is <span id="day"></span>, <span id="time"></span></span>
-      
+            
+
+ 
+                <div class="form">
+                <div class="c-add-item" id="infor">
+                    Item has ben added!
+                </div>
+            
                 <form method="post" id="add-form" action='/todo'>
                     <input class="tesst" type="text" id="item" name="item" placeholder="Add new item..." required />
                     <input class="tesst"  type="time" id="time" name="time" required> 
@@ -90,98 +104,98 @@
                         <option value="Friday">Friday</option>
                         <option value="Saturday">Saturday</option>
                     </select>
-
-                    
                     <button id="addButton" type="submit"<>Add Item</button>
                 </form>
-           
 
-            <div class='listView'>
-               
-                <ul class="a">
-            
-                    <span class="tooltiptext">Click on an item to remove it from list...</span>
-                
-                    <button class="collapsible">Sunday </button>
-                    <div class="c-content">
-                    <% for(var i=0; i < data[0].list.length; i++){ %>
-                        <% if(data[0].list[i].day === "Sunday") { %>
-                            <li class="x"> <%= data[0].list[i].item %> 
-                                <span>Time: <%= data[0].list[i].time %> </span> </li>
-                        <% } %>
-                    <% } %>
-                    </div>
-                    <button class="collapsible">Monday </button>
-                    <div class="c-content">
-                    <% for(var i=0; i < data[0].list.length; i++){ %>
-                        <% if(data[0].list[i].day === "Monday") { %>
-                            <li class="x"> <%= data[0].list[i].item %>
-                                <span>Time: <%= data[0].list[i].time %> </span> </li>
-                        <% } %>
-                    <% } %>
-                    </div>
-                    <button class="collapsible"> Tuesday </button>
-                    <div class="c-content">
-                    <% for(var i=0; i < data[0].list.length; i++){ %>
-                        <% if(data[0].list[i].day === "Tuesday") { %>
-                            <li class="x"> <%= data[0].list[i].item %>
-                                <span>Time: <%= data[0].list[i].time %> </span> </li>
-                        <% } %>
-                    <% } %>
-                    </div>
-                    <button class="collapsible">Wednesday </button>
-                    <div class="c-content">
-                    <% for(var i=0; i < data[0].list.length; i++){ %>
-                        <% if(data[0].list[i].day === "Wednesday") { %>
-                            <li class="x"> <%= data[0].list[i].item %>
-                                <span>Time: <%= data[0].list[i].time %> </span> </li>
-                        <% } %>
-                    <% } %>
-                    </div>
-                    <button class="collapsible">Thursday </button>
-                    <div class="c-content">
-                    <% for(var i=0; i < data[0].list.length; i++){ %>
-                        <% if(data[0].list[i].day === "Thursday") { %>
-                            <li class="x"> <%= data[0].list[i].item %>
-                                <span>Time: <%= data[0].list[i].time %> </span> </li>
-                        <% } %>
-                    <% } %>
-                    </div>
-                    <button class="collapsible">Friday </button>
-                    <div class="c-content">
-                    <% for(var i=0; i < data[0].list.length; i++){ %>
-                        <% if(data[0].list[i].day === "Friday") { %>
-                            <li class="x"> <%= data[0].list[i].item %>
-                                <span>Time: <%= data[0].list[i].time %> </span> </li>
+                </div>
 
-                        <% } %>
-                    <% } %>
+            <div class="accordion-container">
+                <span class="tooltiptext">Click on an item to remove from list</span>
+
+                <div class="background"></div>
+
+                <div class="custom-accordion">
+                    <div class="item">
+                        <div class="icon">Sunday</div>         
+                        <div class="content">
+                            <% for(var i=0; i < data[0].list.length; i++){ %>
+                                <% if(data[0].list[i].day === "Sunday") { %>
+                                    <li class="x"> <%= data[0].list[i].item %> 
+                                        <span><br>Time: <%= data[0].list[i].time %> </span> </li>
+                                <% } %>
+                            <% } %>
+                        </div>
                     </div>
-                    <button class="collapsible">Saturday </button>
-                    <div class="c-content">
-                    <% for(var i=0; i < data[0].list.length; i++){ %>
-                        <% if(data[0].list[i].day === "Saturday") { %>
-                            <li class="x"> <%= data[0].list[i].item %>
-                                <span>Time: <%= data[0].list[i].time %> </span> </li>
-                        <% } %>
-                    <% } %>
-                    </div>    
-                </ul>
-                
-                <!--
-                    ONSUBMIT:
-                        INSERT INTO LIST
-                        $("#listView").load(URL_TO_LISTVIEW);
-                -->
-            </div>
-
-            <form method="post" action='/logout'>
-            <button type="submit" id="logout">Logout</button>
-            </form>
-         
-
+                    <div class="item">
+                        <div class="icon">Monday</div>         
+                        <div class="content">
+                            <% for(var i=0; i < data[0].list.length; i++){ %>
+                                <% if(data[0].list[i].day === "Monday") { %>
+                                    <li class="x"> <%= data[0].list[i].item %> 
+                                        <span><br>Time: <%= data[0].list[i].time %> </span> </li>
+                                <% } %>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="icon">Tuesday</div>         
+                        <div class="content">
+                            <% for(var i=0; i < data[0].list.length; i++){ %>
+                                <% if(data[0].list[i].day === "Tuesday") { %>
+                                    <li class="x"> <%= data[0].list[i].item %> 
+                                        <span><br>Time: <%= data[0].list[i].time %> </span> </li>
+                                <% } %>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="icon">Wednesday</div>         
+                        <div class="content">
+                            <% for(var i=0; i < data[0].list.length; i++){ %>
+                                <% if(data[0].list[i].day === "Wednesday") { %>
+                                    <li class="x"> <%= data[0].list[i].item %> 
+                                        <span><br>Time: <%= data[0].list[i].time %> </span> </li>
+                                <% } %>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="icon">Thursday</div>         
+                        <div class="content">
+                            <% for(var i=0; i < data[0].list.length; i++){ %>
+                                <% if(data[0].list[i].day === "Thursday") { %>
+                                    <li class="x"> <%= data[0].list[i].item %> 
+                                        <span><br>Time: <%= data[0].list[i].time %> </span> </li>
+                                <% } %>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="icon">Friday</div>         
+                        <div class="content">
+                            <% for(var i=0; i < data[0].list.length; i++){ %>
+                                <% if(data[0].list[i].day === "Friday") { %>
+                                    <li class="x"> <%= data[0].list[i].item %> 
+                                        <span><br>Time: <%= data[0].list[i].time %> </span> </li>
+                                <% } %>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="icon">Saturday</div>         
+                        <div class="content">
+                            <% for(var i=0; i < data[0].list.length; i++){ %>
+                                <% if(data[0].list[i].day === "Saturday") { %>
+                                    <li class="x"> <%= data[0].list[i].item %> 
+                                        <span><br>Time: <%= data[0].list[i].time %> </span> </li>
+                                <% } %>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
         </div>
-
+        </div>
+       
     </body>
 
 </html>
@@ -200,22 +214,6 @@
     document.getElementById("time").innerHTML = dt.toLocaleTimeString();
 </script>
 
-<script>
-        var coll = document.getElementsByClassName("collapsible");
-        var i;
-        
-        for (i = 0; i < coll.length; i++) {
-          coll[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var content = this.nextElementSibling;
-            if (content.style.maxHeight){
-              content.style.maxHeight = null;
-            } else {
-              content.style.maxHeight = content.scrollHeight + "px";
-            } 
-          });
-        }
-</script>
 
 <!--
 <script type ="text/javascript">
@@ -223,9 +221,7 @@
             cluster: 'us3',
             forceTLS: true
         });
-
         Pusher.logToConsole = true;
-
         /*
         // retrieve the socket ID once we're connected
         pusher.connection.bind('connected', function () {
@@ -233,11 +229,8 @@
             axios.defaults.headers.common['X-Socket-Id'] = pusher.connection.socket_id;
         });
         */
-
         // request permission to display notifications, if we don't alreay have it
         //Notification.requestPermission();
-
-
         var x = "<%= data[0]._id%>";
         var name = "<%= data[0].username %>";
    
@@ -245,9 +238,7 @@
         channel.bind('ox', function(data) {
          
             "<% var isUndefined = 1; if(event[0] !== undefined){ var xx = event[0].time; var xy = event[0].item; isUndefined = 0} %>"
-
             var isUndefined = "<%= isUndefined %>";
-
             console.log(isUndefined);
             
             if(isUndefined !== 1){
@@ -258,23 +249,14 @@
                     icon: "/assets/icon.png",
                     vibrate: [100, 100, 100]
                 });
-
-
                 Notification.onclick = function (event){
                 event.preventDefault();
                 n.close();
                 }
             }
-
     });
-
-
     channel.bind('pusher:subscription_succeeded', function(data) {
         
-
     });
-
     </script>
     -->
-    
-       

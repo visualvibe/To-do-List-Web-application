@@ -180,7 +180,9 @@ module.exports = function(app){
        for(var x = 0; x < e.length; x++){
         for(var i=0; i < e[x].list.length; i++){
             newTime = e[x].list[i].time.substring(0,2);
+            newMinute = e[x].list[i].time.split(":").pop().substring(0,2);
             var y = parseInt(newTime);
+            var yy = parseInt(newMinute);
             if(curDay === e[x].list[i].day){
                 if(curHr === y && curMin < yy){
                     upcomingEvents.push({name: e[x].username, list: {item: e[x].list[i].item, day: e[x].list[i].day, time: e[x].list[i].time}, 
@@ -199,6 +201,7 @@ module.exports = function(app){
         for(var i = 0; i < upcomingEvents.length; i++){
             makeNotification(upcomingEvents[i]);
         }
+        console.log(upcomingEvents[0]);
 
     }, 30000); //30 seconds
     
@@ -216,9 +219,8 @@ module.exports = function(app){
 
     
     app.get('/', redirectHome, (req,res) =>{
-        const userID  = req.session.userID;
-        console.log(userID);
-        res.render('s', {data: userID });
+
+        res.render('s');
     });
     
     app.get('/home', redirectLogin, async (req, res) =>{
@@ -332,17 +334,11 @@ module.exports = function(app){
         User.findOne({username: username, password: password}, (err, user) => {
             
             if(user){
-                console.log("success");
-                console.log(user.id);
                 req.session.userID = user.id;
-                return res.redirect('/home');
-               
+                return res.redirect('/home');        
             }
-
             console.log("invalid input");
             res.redirect('/login');
-            
-
         });
         
     });
@@ -418,7 +414,6 @@ module.exports = function(app){
         var x = JSON.parse(JSON.stringify({
             item: finalItem
         }));
-
         var y = JSON.parse(JSON.stringify({
             time: newTime
         }));

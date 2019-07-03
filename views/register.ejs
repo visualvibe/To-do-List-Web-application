@@ -2,13 +2,25 @@
 
     <head>
         <title>Register</title>
+        <link rel="icon" type="image/png" href="/assets/1.png" />
         <script src="https://code.jquery.com/jquery-3.3.1.js"  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="  crossorigin="anonymous"></script>
         <script src="assets/registration.js"></script>
         <link href="/assets/styles.css" rel="stylesheet" type="text/css" />
     </head>
 
     <body>
-        
+        <div class="login-page">
+            <div class="header">
+                <% include nav.ejs %>
+
+                <div class="logo"></div>
+                <span id="hello">Todo List</span>
+
+            </div>
+           
+            <div class="mid-header">
+            </div>
+            <div class="login-page-bg"></div>
         <div id="todo-table2">
             
             <form method="post" id="regForm">
@@ -17,7 +29,7 @@
                 <div class="userMsg" id="userMsg">
                         Username must be at least 6 characters 
                 </div>
-                <input type="regForm" id="password" name="password" pattern=".{6,}" placeholder="Enter password..." title="Password should be 6 or more letters" required />
+                <input type="password" id="password" name="password" pattern=".{6,}" placeholder="Enter password..." title="Password should be 6 or more letters" required />
                 <div class="pwMsg" id="pwMsg">
                         Password must be at least 6 characters 
                 </div>
@@ -27,10 +39,12 @@
             </form>
            
         </div>
+      </div>
     </body>
 
 </html>
 
+<!--
 <script>
 var myInput1 = document.getElementById("password");
 var myInput2 = document.getElementById("username");
@@ -50,3 +64,4 @@ myInput2.onblur = function() {
   document.getElementById("userMsg").style.display = "none";
 }
 </script>
+-->

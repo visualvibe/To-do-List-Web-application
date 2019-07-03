@@ -13,7 +13,23 @@ $(document).ready(function(){
         data: data,
         success: function(data){
           //do something with the data via front-end framework
-          location.reload();
+        
+
+        var element =$('#infor');
+
+    
+        function AlertSave() {
+            
+          element.addClass('show-c-add-item');
+            setTimeout(function () {
+                element.removeClass('show-c-add-item');
+                location.reload();
+        }
+        , 1500);
+        }
+        AlertSave();
+        
+         
         }
       });
 

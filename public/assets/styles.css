@@ -1,69 +1,200 @@
-body{
-    background: #0d1521;
-    font-family: tahoma;
-    color: #989898;
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web');
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display');
+@import url('https://fonts.googleapis.com/css?family=Muli');
+@import url('https://fonts.googleapis.com/css?family=Tajawal');
+
+html, body {
+    height: 100%;
 }
 
-#todo-table{
-    border-style: solid;
-    border-color: #181c22;
-    border-width: 30px 0px;
-    
+.login-page{
+    position: relative;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
+
+.login-page > .login-page-bg{
+    z-index: 2;
+    display: inherit;
+    position: inherit;
+    height: 100%;
+    width: 100%;
+    background: url("/assets/bg.jpeg");
+    opacity: 0.5;
+}
+
+body{
+    background-color: #ebe8ed;
+    margin: auto;
+    font-family: 'Titillium Web', sans-serif;
+    color: black;
+    display: flex;
+    flex-direction: column;
+
+}
+.header{
+    flex-shrink: 0;
+    z-index: 10;
+    padding: 5px;
+    height: 65px;
+    background-color: white;
+}
+
+.mid-header{
+    flex-shrink: 0;
+    padding: 5px;
+    height: 45px;
+    background-image: linear-gradient(to right, #546ef0 0%,#4ba8bd 25%, #4ba8bd 50%, #546ef0 100%); 
+    box-shadow: 55px 55px 255px grey;
+}
+
+.content-body{
+    font-family: 'Titillium Web', sans-serif;
+    flex: 1 0 auto;
     border-radius: 25px;
     position: relative;
-    width: 95%;
-    background: #090d13;
-    margin: 20px;
-    padding: 30px;
+    width: 100%;
+    height: 1000px;
+    background: #ebe8ed;
     box-sizing: border-box;
 }
 
 .today{
-    margin-left: 100px;
+    z-index: 10;
+    position: relative;
+    display: inline-block;
+    top: 20px;
+    left: 75px;
+    color: white;
 }
 
-#day{
+.today #day{
+    color: white;
+}
+
+
+.form{
+    z-index: 8;
+    top: 165px;
+    left: 10px;
+    position: relative;
+    width: 388px;
+
+
+}
+
+#item{
+    color: #4ba8bd;
+}
+
+#item::placeholder{
+    color: #4ba8bd;
+}
+
+.tesst{
+    background: #ebe8ed;
+    border-style: solid;
+    border-width: 0px 10px 0px 10px;
+    border-color:  #4ba8bd;
+    color: #4ba8bd;
+    padding: 5px;
+    width: 358px;
+    padding: 20px;
+    margin: 0px 0px 2px 0px;
+    height: 65px;
+    font-size: 20px;
+
+    transition: 0.5s ease-out;
+}
+
+.tesst:valid{
+    border-color:  #4bbd60;
+    border-width: 0px 15px 0px 15px;
+}
+
+
+#addButton{
+    position: inherit;
+    left: -15px;
+    width: 358px;
+    height: 65px;
+    background: #4ba8bd;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+    opacity: 1;
+    transition: 1s;
+
+
+
+}
+
+#addButton:hover {
+    background: #4bbd60;
+
+}
+
+.c-add-item{
+    color: white;
+    display: inline-block;
+    height: 0;
+    position: relative;
+    left: 115px;
+    top: -45px;
+    opacity: 0;
     
 }
 
-input:valid{
-    background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/check.svg);
-    background-size: 20px;
-    background-repeat: no-repeat;
-    background-position: 280px 20px;
-    
+.show-c-add-item{
+    animation: shows 1.5s ease-in-out;
 }
 
-select:valid{
-    background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/check.svg);
-    background-size: 20px;
-    background-repeat: no-repeat;
-    background-position: 280px 20px;
+@keyframes shows{
+    from{
+        top: -25px;
+        opacity: 0;
+    }
+    to{ 
+        top: -45px;
+        opacity: 1;
+    }
 }
 
-input[type="regForm"]:valid{
-    background-color:#181c22;
-    background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/check.svg);
-    background-size: 20px;
-    background-repeat: no-repeat;
-    background-position: 240px 10px;
-}
 
 
 #todo-table2{
     padding: 90px;
-    border-radius: 25px;
-    width: 25%;
-    background: #090d13;
-    margin: 200px auto;
+    width: 20%;
+    background: white;
+    margin-left: auto;
+    margin-right: auto;
     box-sizing: border-box;
     display: flex;
+    position: relative;
+    bottom: 850px;
+    z-index: 3;
     align-items: center;
     justify-content: center;
-
-
-
+    box-shadow: 25px 55px 120px black;
 }
+
+#todo-table2 h2{
+    color: #4ba8bd;
+    letter-spacing: 2px;
+    position: relative;
+    text-align: center;
+    bottom: 85px;
+    font-size: 2rem;
+    width: 100%;
+    border-bottom: 5px solid #4ba8bd;
+    animation: slidein 2s  ;
+}
+
+
+
 
 #regForm{    
     display: flex;
@@ -81,23 +212,11 @@ input[type="regForm"]:valid{
     clear: both;
 }
 
-.tesst{
- 
-    display: inline-block;
-    width: 20%;
-    padding: 20px;
-    margin: 1px;
-    background:#181c22;
-    border: 0;
-    height: 65px;
-    font-size: 20px;
-    color: #989898;
+
+#item{
+    color: #4ba8bd;
 }
 
-#add-form{
-    margin-left: 100px;
-   
-}
 
 select{
     margin-top: 10px;
@@ -105,48 +224,82 @@ select{
 
 
 
-input[type="regform"]{
-    width: 200px;
+input[type="regform"], input[type="password"]{
+    position: relative;
+    bottom: 45px;
+    width: 250px;
+    margin-bottom: 2px;
     padding: 10px;
-    background:#181c22;
-    border: solid;
+    background:white;
     float: left;
     font-size: 20px;
-    color: #989898;
+    color: black;
+    border: none;
+    border-bottom: 5px solid #4ba8bd;
+    transition: 1s ease;
 }
-
-#username:invalid:not(:focus):not(:placeholder-shown) {
-    background: pink;
-  
-    visibility: visible;
-} 
-
-#password:invalid:not(:focus):not(:placeholder-shown){
-    background: pink;
-
-}
-
-
 
 .pwMsg {
-    display:none;
-    background: #f1f1f1;
-    color: #000;
-    width: 50%;
+    display: none;
+    opacity: 0;
+    color: red;
+    width: 80%;
     position: relative;
-
+    right: 15px;
+    bottom: 50px;
     margin: 5px;
+    transition: 1s ease;
 }
 
 .userMsg {
-    display:none;
-    background: #f1f1f1;
-    color: #000;
-    width: 50%;
+    opacity: 0;
+    display: none;
     position: relative;
-
-    margin: 5px;
+    color: red;
+    height: 65px;
+    width: 80%;
+    bottom: 40px;
+    right: 15px;
+    margin: -5px;
+    transition: display 3s ease, opacity 13s ease;
 }
+
+input[type="regForm"]:valid, input[type="password"]:valid{
+    border-bottom: 5px solid #4bbd60;
+}
+input[type="regForm"]:valid:not(:placeholder-shown), input[type="password"]:valid:not(:placeholder-shown){
+    border-bottom: 5px solid #4bbd60;
+}
+
+#username:invalid:not(:placeholder-shown){
+    border-bottom: 5px solid red;
+}
+
+#username:invalid:not(:placeholder-shown) + .userMsg{
+    opacity: 1;
+    display: block;
+    
+}
+
+#username:invalid:not(:focus):not(:placeholder-shown) + .userMsg{
+    opacity: 1;
+}
+
+#password:invalid:not(:placeholder-shown){
+    border-bottom: 5px solid red;
+}
+
+#password:invalid:not(:placeholder-shown) + .pwMsg{
+    opacity: 1;
+    display: block;
+    
+}
+
+#password:invalid:not(:focus):not(:placeholder-shown) + .pwMsg{
+    opacity: 1;
+}
+
+
 
 
 button{
@@ -159,72 +312,93 @@ button{
     color: #fff;
     cursor: pointer;
     font-size: 20px;
+    font-family: 'Muli', sans-serif;
 }
 
-#addButton{
-    position: relative;
-    margin-right: 140px;
-    padding: 20px;
-    width: 30%;
-    height: 65px;
-    float: right;
-    background: #23282e;
-    border: 0;
-    box-sizing: border-box;
-    color: #fff;
-    cursor: pointer;
-    font-size: 20px;
-}
 
 #regButton{
     padding: 30px;
-    width: 50%;
+    width: 200px;
     margin: 20px;
-    background: #23282e;
+    background: #4ba8bd;
     border: 0;
     box-sizing: border-box;
     color: #fff;
     cursor: pointer;
     font-size: 20px;
+    transition: 1s ease;
  
+}
+
+#regbutton:hover{
+    background: #4bbd60;
 }
 
 #loginSubmit{
     padding: 30px;
     width: 200px;
     margin: 20px;
-    background: #23282e;
+    background: #4ba8bd;
     border: 0;
     box-sizing: border-box;
     color: #fff;
     cursor: pointer;
     font-size: 20px;
+    transition: 1s ease;
+}
 
+#loginSubmit:hover{
+    background: #4bbd60;
+}
+.vertical-bar{
+    position: absolute;
+    border-style: solid;
+    width: 5px;
+    background-color: grey;
+    height: 100%;
+    color: grey;
+    position: absolute;
+    left: 600px;
 }
 
 .a{
+ 
     padding: 20px;
-    margin: 5px;
-    background:#181c22;
+    margin: 51px;
     position: relative;
-    border-radius: 15px;
-    width:
-}
+    bottom: 205px;
+    right: 95px;
 
+}
+.logo{
+    position: relative;
+    background: url(/assets/1.png) no-repeat center;
+    height: 85px;
+    bottom: 10px;
+    right: 795px;
+    text-indent: -10000px;
+}
 .x{
-    width: 55%;
+    width: 645%;
     margin-left: auto;
     margin-right: auto;
-    padding: 10px;
+    padding: 5px;
     box-sizing: border-box;
-    font-family: tahoma;
+    font-family: 'Titillium Web', sans-serif;
     font-size: 20px;
     color: black;
     cursor: pointer;
     letter-spacing: 1px;
     list-style-position: inside;
-    background: white;
+    background: #ebe8ed;
     border-radius: 5px;
+}
+
+.listView{
+    position: relative;
+    margin-left: 175px;
+    width: 85%;
+    bottom: 55px;
 }
 
 .a .x {
@@ -238,19 +412,30 @@ button{
   /* Tooltip text */
 .a .tooltiptext {
     visibility: hidden;
-    width: 120px;
-    background-color: black;
+    width: 280px;
+    background-color: grey;
     color: #fff;
     text-align: center;
     padding: 5px 0;
-    border-radius: 6px;
-   
+  
     /* Position the tooltip text - see examples below! */
   
-    bottom: 100%;
+    bottom: 250px;
     left: 250%; 
-    margin-left: 45px;
+    margin-left: 355px;
+    margin-bottom: 3px;
 }
+
+.tooltiptext::after {
+    content: " ";
+    position: relative;
+    top: 36px; /* At the bottom of the tooltip */
+    right: 125px;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: grey transparent transparent transparent;
+  }
 
 
 .x:hover {
@@ -281,44 +466,64 @@ button{
 h1{
    position: relative;
     background: url("/assets/logo.png") no-repeat left;
-    margin-left: 1755px;
+    margin-left: 1655px;
     margin-bottom: -45px;
     text-indent: -10000px;
     height: 140px;
-    /*
-    width: 95%;
-    position: relative;
-    color: #989898;
-    font-family: tahoma;
-    padding: 10px;
-    margin: 0 auto;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    */
-
 }
 
 #hello{
-    color: white;
+    color: #4ba8bd;
+    margin-left: 189px;
+    font-family: 'Tajawal', sans-serif;
     font-size: 55px;
-    height: 20px;
+    bottom: 92px;
+    position: relative;
     display: block;
-    height: 2em;
+    background: linear-gradient(230deg,  #e05252 0%, #99e052 25%, #52e0e0 50%, blue 75%, #52e0e0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-#hello #name{
-    color: #fcc602;
+#hellox{
+    color: #4ba8bd;
+    margin-left: 189px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 55px;
+    bottom: 92px;
+    position: relative;
+    display: block;
+}
+
+
+
+#hellox #name{
+    color: #bd514b;
+    font-style: italic;
 }
 
 #logout{
-    position: relative;
-    width: 200px;
-    top: 45px;
+    position: absolute;
+    z-index: 7;
+    border: solid;
+    width: 155px;
+    background: grey;
+    top: 65px;
     left: 78.1em;
+    opacity: 0.6;
+    transition: 0.3s;
 }
 
+#logout:hover {
+    opacity: 1;
+}
+
+.logouut{
+    position: absolute;
+    background-color: #4ba8bd;
+    top: 35px;
+    left: 186px;
+}
 
 
 .a p{
@@ -331,67 +536,102 @@ h1{
     margin-left: 40px;
 }
 
-
-.day{
-    display: inline;
-    font-size: 16px;
-    font-family: sans-serif;
-    font-weight: 700;
-    color: #444;
-    line-height: 1.3;
-    padding: .6em 1.4em .5em .8em;
-    width: 30%;
-    box-sizing: border-box;
-    margin: 0;
-    border: 1px solid #aaa;
-    box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
-  
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
-    background-color: #fff;
-}
-
 #upcoming-events{
     display: block;
-    font-size: 30px;
+    margin-left: 425px;
+    font-family: "Sunflower", sans-serif;
+    bottom: -2px;
+    position: relative;
+    font-size: 20px;
+    color: white;
 }
 
-.collapsible {
-    background-color: #777;
-    margin: 5px;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    padding: 18px;
-    width: 100%;
-    border: none;
-    text-align: left;
-    outline: none;
+#upcoming-events #upcoming-text{
     font-size: 35px;
-  }
-  
-  .active, .collapsible:hover {
-    background-color: #555;
-  }
-  
-  .c-content {
-    padding: 0 18px;
-    border-radius: 5px;
-    margin-left: 10px;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-    background-color: #f1f1f1;
-  }
+}
 
-  .collapsible:after {
-    content: '\02795'; /* Unicode character for "plus" sign (+) */
-    font-size: 25px;
+#upcoming-events #mid-text{
+    position: relative;
+    bottom: 4px;
+    animation: slide 15s infinite;
+}
+
+@keyframes slide{
+    from{ left: 0px}
+    to{ left: 270px}
+}
+
+.nav{
+    position: relative;
+    width: 250px;
+    left: 1485px;
+    top: 25px;
+    list-style: none;
+    height: 0px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    z-index: 1;
+
+}
+.nav li{
+    display: inline-block;
+    z-index: 2;
+
+
+}
+
+.nav > li > a{
+    text-decoration: none;
+    z-index: 3;
+    height: auto;
+    cursor: pointer;
+    margin-right: 5px;
+    padding: 2px;
+    font-size: 20px;
+    color: black;
+    top: 0px;
+    /*
+    border-bottom: 3px solid #4ba8bd;
+    border-radius: 7px;
+    */
+    transition: 0.1s ease, top .3s;
+
+}
+
+.nav a:hover{
+    position: relative;
+    top: -4px;
+    color: #4ba8bd;
+
+}
+
+.nav a:active{
+    position: relative;
+    color: #4ba8bd;
+    top: -4px;
+}
+
+.s, .sx, .sxe{
+    position: relative;
+    height: 0px;
+    opacity: 0;
+    background: #4ba8bd;
     color: white;
-    float: right;
-  }
-  
-  .active:after {
-    content: "\2796"; /* Unicode character for "minus" sign (-) */
-  }
+    border-bottom: 3px solid #4ba8bd;
+    border-radius: 7px;
+}
+
+.ss{
+    animation: underlinee 1s forwards;
+}
+
+@keyframes underlinee{
+    from{
+        background: black;
+    }
+    to{
+        opacity: 1;
+
+    }
+}

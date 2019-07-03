@@ -2,22 +2,34 @@
 
     <head>
         <title>Login</title>
+        <link rel="icon" type="image/png" href="/assets/1.png" />
         <script src="https://code.jquery.com/jquery-3.3.1.js"  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="  crossorigin="anonymous"></script>
         <script src="assets/loginss.js"></script>
         <link href="/assets/styles.css" rel="stylesheet" type="text/css" />
     </head>
 
     <body>
-        
-        <div id="todo-table2">
+        <div class="login-page">
+                <div class="header">
+                        <% include nav.ejs %>
+
+                        <div class="logo"></div>
+                        <span id="hello">Todo List</span>
+
+                    </div>
+                   
+                    <div class="mid-header">
+                    </div>
+            <div class="login-page-bg"></div>
+            <div id="todo-table2">
+                <form method="post" id="regForm" action='/login'>
+                    <h2>Login</h2>
+                    <input type="regForm" id="username" name="username" placeholder="Enter username..." required />
+                    <input type="password" id="password" name="password" placeholder="Enter password..." required />
+                    <button id="loginSubmit" type="submit">Login</button>
+                </form>
             
-            <form method="post" id="regForm" action='/login'>
-                <h2>Login</h2>
-                <input type="regForm" id="username" name="username" placeholder="Enter username..." required />
-                <input type="regForm" id="password" name="password" placeholder="Enter password..." required />
-                <button id="loginSubmit" type="submit">Login</button>
-            </form>
-           
+            </div>
         </div>
     </body>
 
